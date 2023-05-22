@@ -31,7 +31,7 @@ jobs:
         ARTIFACT_IDS=('google-cloud-shared-dependencies' 'api-common' 'gax')
         for ARTIFACT_ID in "${ARTIFACT_IDS[@]}"
         do
-          VERSION=$(grep "${ARTIFACT_ID}" versions.txt | cut -d':' -f2 | tr -d '[:space:]')
+          VERSION=$(^grep "${ARTIFACT_ID}:" versions.txt | cut -d':' -f2 | tr -d '[:space:]')
           TEMP_BRANCH="temp_branch_${ARTIFACT_ID}_$VERSION"
           git checkout -b $TEMP_BRANCH
           git rm .github/workflows/create_additional_release_tag.yaml
