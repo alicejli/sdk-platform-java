@@ -26,8 +26,8 @@ jobs:
         git config --local user.name "GitHub Action"
 
     - name: Create additional tags
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
       run: |
         REF=${{ github.event.release.tag_name || github.event.inputs.releaseTag }}
         ARTIFACT_IDS=('google-cloud-shared-dependencies' 'api-common' 'gax')
