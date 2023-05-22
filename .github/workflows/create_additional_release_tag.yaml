@@ -39,5 +39,5 @@ jobs:
           git tag "${ARTIFACT_ID}/$VERSION"
           git push origin "${ARTIFACT_ID}/$VERSION"
           git checkout "$REF"
-          git branch -d $TEMP_BRANCH
+          git branch -D $TEMP_BRANCH
         done
