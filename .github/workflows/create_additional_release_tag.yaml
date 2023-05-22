@@ -26,11 +26,9 @@ jobs:
         git config --local user.name "GitHub Action"
 
     - name: Create additional tags
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
       run: |
         REF=${{ github.event.release.tag_name || github.event.inputs.releaseTag }}
-        ARTIFACT_IDS=('google-cloud-shared-dependencies' 'api-common' 'gax')
+        ARTIFACT_IDS=('google-cloud-shared-dependencies')
         for ARTIFACT_ID in "${ARTIFACT_IDS[@]}"
         do
         VERSION=$(grep "${ARTIFACT_ID}" versions.txt | cut -d':' -f2 | tr -d '[:space:]')
