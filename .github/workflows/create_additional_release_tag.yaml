@@ -28,10 +28,16 @@ jobs:
     - name: Create additional tags
       run: |
         REF=${{ github.event.release.tag_name || github.event.inputs.releaseTag }}
-        ARTIFACT_IDS=('google-cloud-shared-dependencies')
+        ARTIFACT_IDS=('google-cloud-shared-dependencies' 'api-common' 'gax')
         for ARTIFACT_ID in "${ARTIFACT_IDS[@]}"
         do
-        VERSION=$(grep "${ARTIFACT_ID}" versions.txt | cut -d':' -f2 | tr -d '[:space:]')
-        git tag "${ARTIFACT_ID}/$VERSION" "$REF"
-        git push origin "${ARTIFACT_ID}/$VERSION"
+          VERSION=$(grep "${ARTIFACT_ID}" versions.txt | cut -d':' -f2 | tr -d '[:space:]')
+          TEMP_BRANCH="temp_branch_${ARTIFACT_ID}_$VERSION"
+          git checkout -b $TEMP_BRANCH
+          git rm .github/workflows/create_additional_release_tag.yaml
+          git commit -m "Remove workflow file"
+          git tag "${ARTIFACT_ID}/$VERSION"
+          git push origin "${ARTIFACT_ID}/$VERSION"
+          git checkout "$REF"
+          git branch -d $TEMP_BRANCH
         done
