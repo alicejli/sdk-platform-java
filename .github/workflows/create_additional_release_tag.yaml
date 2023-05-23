@@ -31,6 +31,12 @@ jobs:
         for ARTIFACT_ID in "${ARTIFACT_IDS[@]}"
         do
           VERSION=$(grep "^${ARTIFACT_ID}:" versions.txt | cut -d':' -f2 | tr -d '[:space:]')
-          git tag ${ARTIFACT_ID}/v$VERSION ${{ github.event.inputs.releaseTag }}
-          git push origin ${ARTIFACT_ID}/v$VERSION
+          TAG_NAME="${ARTIFACT_ID}/v$VERSION"
+          if git show-ref --tags | egrep -q "refs/tags/$TAG_NAME$"
+            then
+              echo "Tag $TAG_NAME already exists. Skipping."
+              continue
+            fi
+          git tag $TAG_NAME ${{ github.event.inputs.releaseTag }}
+          git push origin $TAG_NAME
         done
