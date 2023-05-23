@@ -4,10 +4,10 @@ on:
   release:
     types: [published]
   workflow_dispatch: # If manually triggered, clarify which release to create the additional tags for
-    inputs:
-      releaseTag:
-        description: 'Release Tag'
-        required: true
+#    inputs:
+#      releaseTag:
+#        description: 'Release Tag'
+#        required: true
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       with:
-        ref: ${{ github.event.release.tag_name || github.event.inputs.releaseTag }}
+#        ref: ${{ github.event.release.tag_name || github.event.inputs.releaseTag }}
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set up Git
@@ -28,6 +28,6 @@ jobs:
     - name: Create additional tag for google-cloud-shared-dependencies
       run: |
         ARTIFACT_ID='google-cloud-shared-dependencies'
-        VERSION=$(grep "^${ARTIFACT_ID}" versions.txt | cut -d':' -f2)
-        git tag google-cloud-shared-dependencies/v$VERSION
+        VERSION=$(grep "${ARTIFACT_ID}" versions.txt | cut -d':' -f2)
+        git tag google-cloud-shared-dependencies/v$VERSION ${{ github.event.inputs.releaseTag }}
         git push origin google-cloud-shared-dependencies/v$VERSION
