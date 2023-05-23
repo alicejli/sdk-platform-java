@@ -32,7 +32,7 @@ jobs:
         do
           VERSION=$(grep "^${ARTIFACT_ID}:" versions.txt | cut -d':' -f2 | tr -d '[:space:]')
           TAG_NAME="${ARTIFACT_ID}/v$VERSION"
-          if git show-ref --tags | egrep -q "refs/tags/$TAG_NAME$"
+          if git show-ref --tags | grep -q "refs/tags/$TAG_NAME"
             then
               echo "Tag $TAG_NAME already exists. Skipping."
               continue
