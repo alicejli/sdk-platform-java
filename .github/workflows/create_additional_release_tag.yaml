@@ -27,24 +27,7 @@ jobs:
 
     - name: Create additional tag for google-cloud-shared-dependencies
       run: |
-        REF=${{ github.event.release.tag_name || github.event.inputs.releaseTag }}
         ARTIFACT_ID='google-cloud-shared-dependencies'
         VERSION=$(grep "^${ARTIFACT_ID}" versions.txt | cut -d':' -f2)
-        git tag ${ARTIFACT_ID}/v$VERSION $REF
-        git push origin ${ARTIFACT_ID}/v$VERSION
-
-    - name: Create additional tag for api-common
-      run: |
-        REF=${{ github.event.release.tag_name || github.event.inputs.releaseTag }}
-        ARTIFACT_ID='api-common'
-        VERSION=$(grep "^${ARTIFACT_ID}" versions.txt | cut -d':' -f2)
-        git tag ${ARTIFACT_ID}/v$VERSION $REF
-        git push origin ${ARTIFACT_ID}/v$VERSION
-
-    - name: Create additional tag for gax
-      run: |
-        REF=${{ github.event.release.tag_name || github.event.inputs.releaseTag }}
-        ARTIFACT_ID='gax'
-        VERSION=$(grep "^${ARTIFACT_ID}" versions.txt | cut -d':' -f2)
-        git tag ${ARTIFACT_ID}/v$VERSION $REF
+        git tag ${ARTIFACT_ID}/v$VERSION ${{ github.event.inputs.releaseTag }}
         git push origin ${ARTIFACT_ID}/v$VERSION
