@@ -3,11 +3,7 @@ name: Create additional tags for each release
 on:
   release:
     types: [published]
-  workflow_dispatch: # If manually triggered, clarify which release to create the additional tags for
-    inputs:
-      releaseTag:
-        description: 'Release Tag'
-        required: true
+  workflow_dispatch:
 
 jobs:
   build:
@@ -40,6 +36,6 @@ jobs:
               echo "Tag $TAG_NAME already exists. Skipping."
               continue
             fi
-          git tag $TAG_NAME  ${{ github.event.release.tag_name || github.event.inputs.releaseTag }}
+          git tag $TAG_NAME ${{ github.event.inputs.releaseTag }}
           git push origin $TAG_NAME
         done
