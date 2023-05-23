@@ -40,6 +40,6 @@ jobs:
               echo "Tag $TAG_NAME already exists. Skipping."
               continue
             fi
-          git tag $TAG_NAME ${{ github.event.inputs.releaseTag }}
+          git tag $TAG_NAME  ${{ github.event.release.tag_name || github.event.inputs.releaseTag }}
           git push origin $TAG_NAME
         done
