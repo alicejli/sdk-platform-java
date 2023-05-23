@@ -27,7 +27,10 @@ jobs:
 
     - name: Create additional tag for google-cloud-shared-dependencies
       run: |
-        ARTIFACT_ID='google-cloud-shared-dependencies'
-        VERSION=$(grep "^${ARTIFACT_ID}:" versions.txt | cut -d':' -f2 | tr -d '[:space:]')
-        git tag ${ARTIFACT_ID}/v$VERSION ${{ github.event.inputs.releaseTag }}
-        git push origin ${ARTIFACT_ID}/v$VERSION
+        ARTIFACT_IDS=('google-cloud-shared-dependencies' 'api-common' 'gax')
+        for ARTIFACT_ID in "${ARTIFACT_IDS[@]}"
+        do
+          VERSION=$(grep "^${ARTIFACT_ID}:" versions.txt | cut -d':' -f2 | tr -d '[:space:]')
+          git tag ${ARTIFACT_ID}/v$VERSION ${{ github.event.inputs.releaseTag }}
+          git push origin ${ARTIFACT_ID}/v$VERSION
+        done
