@@ -29,5 +29,5 @@ jobs:
       run: |
         ARTIFACT_ID='google-cloud-shared-dependencies'
         VERSION=$(grep "^${ARTIFACT_ID}" versions.txt | cut -d':' -f2)
-        git tag ${ARTIFACT_ID}/v$VERSION ${{ github.event.inputs.releaseTag }}
+        git tag ${ARTIFACT_ID}/v$VERSION
         git push origin ${ARTIFACT_ID}/v$VERSION
